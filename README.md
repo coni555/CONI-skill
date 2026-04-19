@@ -23,5 +23,3 @@ cp -R memory-engine ~/.claude/skills/
 # 例：安装 xiaohongshu-image-cards 到 Codex
 cp -R xiaohongshu-image-cards ~/.codex/skills/
 ```
-
-其中 `memory-engine` / `user-lens` / `video-analyze` / `video-download` 为 Claude Code skill；`xiaohongshu-image-cards` 为 Codex skill。
