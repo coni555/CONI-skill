@@ -1,0 +1,4 @@
+interface:
+  display_name: "小红书图文卡片"
+  short_description: "把长文重排并导出成可直接发布的小红书图文卡片工作流"
+  default_prompt: "Use $xiaohongshu-image-cards to turn this long note into 6-9 polished Xiaohongshu image cards."
