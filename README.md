@@ -15,18 +15,22 @@ coni 个人创建的 Claude Code / Codex Skill 合集。
 | [frontend-design](./frontend-design) | 通用前端美学执行原则——动效优先级、空间构图、背景质感、视觉记忆点（content-to-html 的可选依赖） |
 | [transcript-to-immersive-page](./transcript-to-immersive-page) | 长篇逐字稿/播客/直播文字稿反向工程为沉浸式单 HTML 深度阅读页（content-to-html 的早期版本） |
 
-## 安装
+## 一句话安装
 
-Claude Code skill 复制到 `~/.claude/skills/`，Codex skill 复制到 `~/.codex/skills/`：
+发给你的 Claude Code，说：
+
+> 帮我安装这个 skill：`bash <(curl -s https://raw.githubusercontent.com/coni555/CONI-skill/main/install.sh) content-to-html frontend-design`
+
+把 `content-to-html frontend-design` 换成你想装的 skill 名，空格分隔。不传参数会列出所有可用 skill。
+
+## 手动安装
 
 ```bash
-# 例：安装 memory-engine 到 Claude Code
-cp -R memory-engine ~/.claude/skills/
-
-# 例：安装 xiaohongshu-image-cards 到 Codex
-cp -R xiaohongshu-image-cards ~/.codex/skills/
+git clone https://github.com/coni555/CONI-skill.git
+cp -R CONI-skill/content-to-html ~/.claude/skills/
+cp -R CONI-skill/frontend-design ~/.claude/skills/
 ```
 
-其中 `memory-engine` / `user-lens` / `video-analyze` / `video-download` / `content-to-html` / `frontend-design` 为 Claude Code skill；`xiaohongshu-image-cards` 为 Codex skill。
+其中 `memory-engine` / `user-lens` / `video-analyze` / `video-download` / `content-to-html` / `frontend-design` / `transcript-to-immersive-page` 为 Claude Code skill；`xiaohongshu-image-cards` 为 Codex skill（复制到 `~/.codex/skills/`）。
 
 > **依赖说明**：`content-to-html` 会在 Step 5 尝试读取 `frontend-design/SKILL.md` 作为美学补充。两个都装体验最佳；只装 `content-to-html` 也能正常工作，只是少一层通用美学指导。
