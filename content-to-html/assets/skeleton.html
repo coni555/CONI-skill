@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><!-- REPLACE: 页面标题 --></title>
+
+  <!-- FONTS: 替换为本次选定的字体组合 -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;700&family=Newsreader:ital,wght@0,400;0,700;1,400&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+
+  <style>
+    /* ============================================
+       DESIGN TOKENS — 每次替换为选定色板
+       ============================================ */
+    :root {
+      --paper:   oklch(0.96 0.02 88);
+      --ink:     oklch(0.20 0.02 30);
+      --accent:  oklch(0.55 0.18 30);
+      --gold:    oklch(0.72 0.15 80);
+      --mute:    oklch(0.55 0.02 35);
+
+      --font-display: 'Newsreader', serif;
+      --font-zh: 'Noto Serif SC', serif;
+      --font-body: 'Newsreader', serif;
+      --font-mono: 'JetBrains Mono', monospace;
+
+      --content-width: 720px;
+      --toc-width: 200px;
+    }
+
+    /* ============================================
+       RESET + BASE
+       ============================================ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--paper);
+      color: var(--ink);
+      font-family: var(--font-zh), var(--font-body);
+      line-height: 1.75;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ============================================
+       PROGRESS BAR
+       ============================================ */
+    .progress-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      height: 3px;
+      background: var(--accent);
+      width: 0%;
+      z-index: 9999;
+      transition: width 0.1s linear;
+    }
+
+    /* ============================================
+       TOC NAVIGATION — 形态每次替换
+       本骨架提供左侧栏基础实现，可改为任何形态
+       ============================================ */
+    .toc {
+      position: fixed;
+      left: 0;
+      top: 0;
+      width: var(--toc-width);
+      height: 100vh;
+      padding: 2rem 1rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 0.5rem;
+      z-index: 100;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+    }
+
+    .toc a {
+      color: var(--mute);
+      text-decoration: none;
+      padding: 0.25rem 0.5rem;
+      border-left: 2px solid transparent;
+      transition: all 0.3s ease;
+      display: block;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .toc a.active {
+      color: var(--accent);
+      border-left-color: var(--accent);
+    }
+
+    .toc a:hover {
+      color: var(--ink);
+    }
+
+    /* ============================================
+       MAIN CONTENT
+       ============================================ */
+    .main {
+      margin-left: var(--toc-width);
+      max-width: var(--content-width);
+      padding: 4rem 2rem;
+    }
+
+    section {
+      margin-bottom: 6rem;
+    }
+
+    /* ============================================
+       SCROLL REVEAL + ENTRANCE
+       ============================================ */
+    .reveal {
+      opacity: 0;
+      transform: translateY(32px);
+      transition: opacity 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+                  transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .reveal { opacity: 1; transform: none; transition: none; }
+      [data-entrance] { opacity: 1; transform: none; animation: none; }
+    }
+
+    /* ============================================
+       RESPONSIVE — 小屏折叠 TOC
+       ============================================ */
+    @media (max-width: 880px) {
+      .toc {
+        position: fixed;
+        left: 0;
+        top: auto;
+        bottom: 0;
+        width: 100%;
+        height: auto;
+        flex-direction: row;
+        overflow-x: auto;
+        padding: 0.75rem 1rem;
+        background: var(--paper);
+        border-top: 1px solid var(--mute);
+        gap: 0.25rem;
+      }
+      .toc a {
+        border-left: none;
+        border-bottom: 2px solid transparent;
+        padding: 0.25rem 0.75rem;
+        font-size: 0.7rem;
+      }
+      .toc a.active {
+        border-bottom-color: var(--accent);
+        border-left-color: transparent;
+      }
+      .main {
+        margin-left: 0;
+        padding: 2rem 1.5rem 5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Progress Bar -->
+  <div class="progress-bar" id="progressBar"></div>
+
+  <!-- TOC Navigation -->
+  <nav class="toc" id="toc">
+    <!-- 每个章节一个链接，href 对应 section id -->
+    <a href="#cover">Cover</a>
+    <a href="#ch1">Chapter 1</a>
+    <a href="#ch2">Chapter 2</a>
+    <!-- ... -->
+    <a href="#selfcheck">Self-check</a>
+    <a href="#coda">Coda</a>
+  </nav>
+
+  <!-- Main Content -->
+  <main class="main">
+
+    <section id="cover">
+      <!-- Cover / Masthead -->
+    </section>
+
+    <section id="ch1">
+      <!-- Chapter 1 -->
+    </section>
+
+    <!-- ... more chapters ... -->
+
+    <section id="selfcheck">
+      <!-- Self-check / Takeaways -->
+    </section>
+
+    <section id="coda">
+      <!-- Coda + Colophon -->
+    </section>
+
+  </main>
+
+  <script>
+    /* ============================================
+       PROGRESS BAR
+       ============================================ */
+    const progressBar = document.getElementById('progressBar');
+    window.addEventListener('scroll', () => {
+      const scrollTop = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+      progressBar.style.width = progress + '%';
+    });
+
+    /* ============================================
+       TOC — IntersectionObserver 实时高亮
+       ============================================ */
+    const tocLinks = document.querySelectorAll('#toc a');
+    const sections = document.querySelectorAll('main section[id]');
+
+    const observerOptions = {
+      root: null,
+      rootMargin: '-30% 0px -55% 0px',
+      threshold: 0
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          tocLinks.forEach(link => link.classList.remove('active'));
+          const activeLink = document.querySelector(`#toc a[href="#${entry.target.id}"]`);
+          if (activeLink) activeLink.classList.add('active');
+        }
+      });
+    }, observerOptions);
+
+    sections.forEach(section => observer.observe(section));
+
+    /* ============================================
+       TOC — 平滑滚动
+       ============================================ */
+    tocLinks.forEach(link => {
+      link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const target = document.querySelector(link.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+
+    /* ============================================
+       SCROLL REVEAL — 独立 observer，与 TOC 分开
+       ============================================ */
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          // 列表逐条错位动画
+          const items = entry.target.querySelectorAll('li, .card, .item');
+          items.forEach((el, i) => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(16px)';
+            el.style.transition = `opacity 0.5s ${i * 0.1 + 0.2}s, transform 0.5s ${i * 0.1 + 0.2}s`;
+            requestAnimationFrame(() => {
+              el.style.opacity = '1';
+              el.style.transform = 'translateY(0)';
+            });
+          });
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { root: null, rootMargin: '0px 0px -12% 0px', threshold: 0.05 });
+
+    document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+  </script>
+
+</body>
+</html>
