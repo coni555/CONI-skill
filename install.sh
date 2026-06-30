@@ -4,7 +4,8 @@
 # 不传参数 = 列出所有可用 skill
 
 REPO="https://github.com/coni555/CONI-skill.git"
-SKILL_DIR="$HOME/.claude/skills"
+CLAUDE_SKILL_DIR="$HOME/.claude/skills"
+CODEX_SKILL_DIR="$HOME/.codex/skills"
 TMP_DIR=$(mktemp -d)
 
 trap "rm -rf $TMP_DIR" EXIT
@@ -20,6 +21,7 @@ if [ $# -eq 0 ]; then
   echo "  video-analyze                — 视频抽帧+音频分析"
   echo "  video-download               — yt-dlp 多平台视频下载"
   echo "  xiaohongshu-image-cards      — 长文 → 小红书竖版图文卡片"
+  echo "  zhilengjie-ip-dialogue       — 支棱姐 IP 对话模拟"
   echo ""
   echo "用法: bash <(curl -s https://raw.githubusercontent.com/coni555/CONI-skill/main/install.sh) skill名"
   echo "示例: bash <(curl -s https://raw.githubusercontent.com/coni555/CONI-skill/main/install.sh) content-to-html frontend-design"
@@ -34,10 +36,18 @@ if [ $? -ne 0 ]; then
   exit 1
 fi
 
-mkdir -p "$SKILL_DIR"
-
 for skill in "$@"; do
   if [ -d "$TMP_DIR/repo/$skill" ]; then
+    case "$skill" in
+      xiaohongshu-image-cards|zhilengjie-ip-dialogue)
+        SKILL_DIR="$CODEX_SKILL_DIR"
+        ;;
+      *)
+        SKILL_DIR="$CLAUDE_SKILL_DIR"
+        ;;
+    esac
+    mkdir -p "$SKILL_DIR"
+    rm -rf "$SKILL_DIR/$skill"
     cp -R "$TMP_DIR/repo/$skill" "$SKILL_DIR/"
     echo "✅ $skill → $SKILL_DIR/$skill"
   else
@@ -46,4 +56,4 @@ for skill in "$@"; do
 done
 
 echo ""
-echo "安装完成。重启 Claude Code 生效。"
+echo "安装完成。重启对应客户端生效。"
